@@ -1,0 +1,43 @@
+.App {
+  font-family: sans-serif;
+}
+.header {
+  text-align: center;
+}
+.rendered-doc {
+  margin: 1em;
+  padding: 2em;
+  border: 1px solid #dbdbdb;
+}
+.rendered-doc p:hover {
+  background-color: #a6bbd3;
+  cursor: pointer;
+}
+button {
+  border: none;
+  border-radius: 2px 2px 0 0;
+  margin: 0 1px;
+  padding: 5px 12px;
+}
+button:hover {
+  background-color: #517d8d;
+  color: wheat;
+  cursor: pointer;
+}
+tr {
+  background-color: #f0f0f0;
+}
+table {
+  margin: 20px auto;
+  border: 1px solid #dbdbdb;
+}
+table td {
+  border-bottom: 1px solid #dbdbdb;
+}
+table td + td {
+  border-left: 1px solid #dbdbdb;
+}
+.tools {
+  margin-bottom: 40px;
+  border-bottom: 1px solid #f0f0f0;
+}
