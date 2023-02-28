@@ -1,9 +1,31 @@
 import "./App.css";
+import axios from "axios";
 import mammoth from "mammoth";
 import { useState } from "react";
 
 export default function App() {
   const [renderedDoc, setRenderedDoc] = useState();
+
+  const [prompt, setPrompt] = useState("");
+  const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    // communicate with API
+    // post input value 'prompt' to API end point
+    axios
+      .post("http://localhost:5555/chat", { prompt })
+      .then((res) => {
+        setResponse(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   function parseWordDocxFile(inputElement) {
     let files = inputElement.files || [];
@@ -31,17 +53,30 @@ export default function App() {
       <div className="header">
         <h2>Resume Evaluator</h2>
         <input type="file" onChange={(e) => parseWordDocxFile(e.target)} />
-        {/* <button onClick={parseWordDocxFile(deafultFile)}> Recargar </button> */}
       </div>
       {renderedDoc ? (
-        <div className="rendered-doc">
-          <div className="tools">
-            <button className="">🖊</button>
-            <button className="">🏁</button>
-            <button className="">📑</button>
+        <>
+          <div className="rendered-doc">
+            <div className="tools">
+              <button className="">🖊</button>
+              <button className="">🏁</button>
+              <button className="">📑</button>
+            </div>
+            <div dangerouslySetInnerHTML={{ __html: renderedDoc }} />
           </div>
-          <div dangerouslySetInnerHTML={{ __html: renderedDoc }} />
-        </div>
+          <div className="wrapper">
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder="Ask anything... :)"
+              />
+              <button type="submit">Ask</button>
+            </form>
+            <p className="response-area">{loading ? "loading..." : response}</p>
+          </div>
+        </>
       ) : (
         ""
       )}
